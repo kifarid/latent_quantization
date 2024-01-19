@@ -8,7 +8,7 @@ import pathlib
 sys.path.insert(1, pathlib.Path(__file__).parent.parent.absolute().as_posix())
 
 
-@hydra.main(version_base=None, config_path='/iris/u/kylehsu/code/disentangle/configs', config_name='train_ae')
+@hydra.main(version_base=None, config_path='/work/dlclarge1/faridk-quantization/latent_quantization/configs', config_name='train_ae')
 def main(config):
     from scripts import train_ae
     print(os.environ['LD_LIBRARY_PATH'])

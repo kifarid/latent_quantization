@@ -1,5 +1,5 @@
 defaults:
-  - model_partial: quantized_ae
+  - model_partial: fsquantized_ae
   - encoder_partial: image
   - decoder_partial: style_image
   - override hydra/launcher: slurm
@@ -28,28 +28,26 @@ hydra:
 #      experiment.seed: 42,43,44
 #      optim.num_steps: 2e5
     params:
-      model_partial: quantized_ae
+      model_partial: fsquantized_ae
       encoder_partial: image
       decoder_partial: style_image
-      #data.name: shapes3d
+      data.name: shapes3d
       model_partial.latent_partial.num_latents: twice_sources
-      data.name: mpi3d
-      model_partial.latent_partial.num_values_per_latent: 13
-      model_partial.latent_partial.bound_type: normal
-      model_partial.lambdas.quantization: 0.0
-      model_partial.latent_partial.optimize_values: False
-      model_partial.lambdas.commitment: 0.0
-      model_partial.lambdas.l2: 0.1
+      model_partial.latent_partial.num_values_per_latent: 9
+      model_partial.lambdas.l2: 0.1, 0.01, 0.001 #
       model_partial.lambdas.l1: 0.
-      experiment.seed: 42, 1337, 2023
-      optim.num_steps: 2e5
+      model_partial.lambdas.quantization: 0, 0.001
+      model_partial.lambdas.commitment: 0, 0.001
+      experiment.seed: 42, 1337
+      optim.num_steps: 5e4
+      optim.learning_rate: 6e-3, 3e-3, 1e-3, 1e-4, 3e-5 #, 6e-6, 1e-6
 
 experiment:
   seed: 100
 
 optim:
   learning_rate: 1e-3
-  num_steps: 7e4
+  num_steps: 2e5
   clip: 1.
 
 model_partial:
@@ -63,7 +61,7 @@ data:
   num_val_data: 10000
   seed: 20230228
   possible_dirs:    # CHANGE ME; tried in order
-    #- /scr-ssd/kylehsu/data
+    - /scr-ssd/kylehsu/data
     - /work/dlclarge1/faridk-quantization/data
 
   batch_size: 128

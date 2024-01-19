@@ -5,3 +5,5 @@ from .quantized import *
 from .noisy_clamped import *
 from .vector_quantized import *
 from .global_quantized import *
+from .fs_quantized import *
+from .lookup_free_quantized import *

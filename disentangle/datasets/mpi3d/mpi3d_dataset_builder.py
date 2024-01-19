@@ -3,6 +3,7 @@
 import tensorflow_datasets as tfds
 import numpy as np
 import ipdb
+import gdown
 
 
 class Builder(tfds.core.GeneratorBasedBuilder):
@@ -31,14 +32,21 @@ class Builder(tfds.core.GeneratorBasedBuilder):
 
     def _split_generators(self, dl_manager: tfds.download.DownloadManager):
         """Returns SplitGenerators."""
-        path = dl_manager.download('https://drive.google.com/uc?id=1Tp8eTdHxgUMtsZv5uAoYAbJR1BOa_OQm')
+        path = 'mpi3d.npz'
+        #get data_dir from the dl_manager
+        path_dir = dl_manager.download_dir
+        path = str(path_dir / path)
+        # convert path to string
+        gdown.download('https://drive.google.com/uc?id=1Tp8eTdHxgUMtsZv5uAoYAbJR1BOa_OQm', path, quiet=False)
+        # https://drive.google.com/file/d/1Tp8eTdHxgUMtsZv5uAoYAbJR1BOa_OQm/view?usp=sharing
+        #path = dl_manager.download_and_extract('https://drive.google.com/uc?id=1Tp8eTdHxgUMtsZv5uAoYAbJR1BOa_OQm')
         return {
             'train': self._generate_examples(path)
         }
 
     def _generate_examples(self, path):
         """Yields examples."""
-
+        print(path)
         images = np.load(path)['images']
         label_sizes = [4, 4, 2, 3, 3, 40, 40]
 

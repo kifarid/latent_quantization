@@ -61,9 +61,7 @@ if __name__ == '__main__':
         {
             'data': {
                 'possible_dirs': [
-                    '/scr-ssd/kylehsu/data',
-                    '/scr/kylehsu/data',
-                    '/iris/u/kylehsu/data',
+                    '/work/dlclarge1/faridk-quantization/data',
                 ],
                 'seed': 42,
                 'num_val_data': 10000,

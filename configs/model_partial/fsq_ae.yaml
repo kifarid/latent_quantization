@@ -3,15 +3,16 @@ _target_: disentangle.models.QuantizedAE
 encoder_partial: ???
 latent_partial:
   _partial_: True
-  _target_: disentangle.latents.QuantizedLatent
+  _target_: disentangle.latents.FSQuantizedLatent
   num_latents: ???
-  num_values_per_latent: 10
-  optimize_values: True
-  bound_type: normal
+  num_values_per_latent: 5
+  optimize_values: False
+
+  min_max_range: [-1, 1]
 decoder_partial: ???
 lambdas:
   binary_cross_entropy: 1.
-  quantization: 0.01
-  commitment: 0.01
+  quantization: 0.
+  commitment: 0.
   l2: 0.1  # adamw
   l1: 0.

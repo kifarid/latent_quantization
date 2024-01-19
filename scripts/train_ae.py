@@ -107,7 +107,7 @@ def log_latent_densities(aux, step):
     data['id'] = data.index
     data = data.melt(id_vars='id', var_name='z', value_name='value')
     fig, ax = plt.subplots(figsize=(aux['z_hat'].shape[1] ** 0.8, 3))
-    sns.violinplot(data=data, ax=ax, kind='violin', x='z', y='value', scale='width', cut=0)
+    sns.violinplot(data=data, ax=ax, x='z', y='value', density_norm='width', cut=0)
     fig.tight_layout()
     wandb.log({f'latents/density': wandb.Image(fig)}, step=step)
     plt.close()
@@ -196,6 +196,8 @@ def main(config):
                 config.model_partial.latent_partial.num_latents = 14
             case 'mpi3d':
                 config.model_partial.latent_partial.num_latents = 14
+            case 'clevr':
+                config.model_partial.latent_partial.num_latents = config.data.num_objects * 7
             case _:
                 raise ValueError(f'unknown dataset {config.data.name}')
 
@@ -236,6 +238,8 @@ def main(config):
             dataset_metadata, train_set, val_set = disentangle.datasets.falcor3d.get_datasets(config)
         case 'mpi3d':
             dataset_metadata, train_set, val_set = disentangle.datasets.mpi3d.get_datasets(config)
+        case 'clevr':
+            dataset_metadata, train_set, val_set = disentangle.datasets.clevr.get_datasets(config)
         case _:
             raise ValueError(f'unknown dataset {config.data.name}')
     batch = next(iter(train_set))
